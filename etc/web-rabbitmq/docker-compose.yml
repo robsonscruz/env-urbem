@@ -1,0 +1,12 @@
+version: '2.1'
+
+services:
+  web-rabbitmq:
+    build: .
+    mem_limit: 200m
+    restart: always
+    environment:
+      RABBITMQ_ERLANG_COOKIE: SWQOKODSQALRPCLNMEQG
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST: /

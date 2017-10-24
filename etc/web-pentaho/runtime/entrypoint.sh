@@ -9,7 +9,7 @@ DB_USER='docker'
 DB_PASSWORD='docker'
 
 IP=$(awk 'END{print $1}' /etc/hosts)
-CONFIGURATION_FILE="/var/www/pentaho/config/configuration-server.xml"
+CONFIGURATION_FILE="/opt/pentaho/configuration-server.xml"
 
 export KETTLE_HOME=/opt/pentaho/pdi
 
@@ -148,4 +148,8 @@ KETTLE_COMPATIBILITY_DB_IGNORE_TIMEZONE=N
 KETTLE_TRANS_LOG_SCHEMA=${DB_DATABASE_NAME}" > ${KETTLE_HOME}/.kettle/kettle.properties
 
 # Up Carte
-/usr/bin/bash /opt/pentaho/pdi/data-integration/carte.sh ${CONFIGURATION_FILE}
+#cat ${CONFIGURATION_FILE}
+#ls -lah /opt/pentaho/pdi/data-integration/carte.sh
+
+#/usr/bin/bash /opt/pentaho/pdi/data-integration/carte.sh ${CONFIGURATION_FILE}
+./opt/pentaho/pdi/data-integration/carte.sh ${CONFIGURATION_FILE}

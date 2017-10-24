@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y software-properties-common language-pac
         php7.1-pgsql \
         php7.1-iconv \
         php7.1-phar \
+        php7.1-zip \
 		wkhtmltopdf \
 		xvfb \
 		sendmail supervisor \
@@ -46,10 +47,16 @@ RUN echo 'xvfb-run -- /usr/bin/wkhtmltopdf "${@:-}"' > /usr/local/bin/wkhtmltopd
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Ruby
+RUN apt-add-repository -y ppa:brightbox/ruby-ng && apt-get update && apt-get install -y ruby2.3 ruby2.3-dev
+RUN gem install bunny
+
 COPY ./conf/php/php-cli.ini /etc/php/7.1/cli/php.ini
 COPY ./conf/php/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
 COPY ./conf/php/php.ini /etc/php/7.1/fpm/php.ini
 COPY ./conf/php/www.conf /etc/php/7.1/fpm/pool.d/www.conf
+COPY ./conf/fila-relatorio-urbem.sh /fila-relatorio-urbem.sh
+RUN chmod 755 /fila-relatorio-urbem.sh
 
 ADD ./conf/nginx/fastcgi_params /etc/nginx/fastcgi_params
 

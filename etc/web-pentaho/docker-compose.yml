@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  web-pentaho:
+    build: .
+    restart: always
+    volumes:
+      - ./kettle:/var/www/pentaho/config
+      - ./../../www/pdi:/var/www/pentaho/pdi
+    tty: true

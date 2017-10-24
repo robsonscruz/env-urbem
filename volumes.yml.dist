@@ -6,3 +6,4 @@ services:
         - ./www/urbem-prod:/srv/web/urbem
         - ./www/transparencia-prod:/srv/web/transparencia
         - ./www/storage:/var/www/storage
+        - ./www/pentaho/pdi:/var/www/pentaho/pdi

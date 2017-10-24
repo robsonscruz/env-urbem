@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y software-properties-common language-pac
 	php-xdebug \
     php5.6-gd \
 	php5.6-dev \
+    php5.6-zip \
 	php-pear \
 	wkhtmltopdf \
 	xvfb \
@@ -40,6 +41,9 @@ RUN echo 'xvfb-run -- /usr/bin/wkhtmltopdf "${@:-}"' > /usr/local/bin/wkhtmltopd
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Ruby
+RUN apt-add-repository -y ppa:brightbox/ruby-ng && apt-get update && apt-get install -y ruby2.3 ruby2.3-dev
+RUN gem install bunny
 
 COPY ./conf/php/cli-php.ini /etc/php/5.6/cli/php.ini
 #COPY ./conf/php/php-fpm.conf /etc/php/5.6/fpm/php-fpm.conf

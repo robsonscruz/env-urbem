@@ -32,6 +32,20 @@ services:
       - globalenv
     network_mode: "bridge"
 
+  web-pentaho:
+    build: ./etc/web-pentaho
+    environment:
+      - VIRTUAL_HOST=web-pentaho.prod
+    network_mode: "bridge"
+    links:
+      - mysql:mysqlhost
+      - postgresql:postgrehost
+    privileged: true
+    volumes_from:
+      - globalenv
+    ports:
+      - "8081"
+
   web-tomcat7:
     build: ./etc/web-tomcat7
     environment:
@@ -57,6 +71,7 @@ services:
       - mysql:mysqlhost
       - postgresql:postgrehost
       - web-tomcat7:web-tomcat7.prod
+      - web-rabbitmq:web-rabbitmq.prod
     privileged: true
     volumes_from:
       - globalenv
@@ -81,3 +96,22 @@ services:
     ports:
       - "80"
     entrypoint: /usr/bin/supervisord
+
+  web-rabbitmq:
+    build: ./etc/web-rabbitmq
+    environment:
+      - VIRTUAL_HOST=web-rabbitmq.prod
+    network_mode: "bridge"
+    links:
+      - mysql:mysqlhost
+      - postgresql:postgrehost
+      - proxy:proxy-server
+      - web-pentaho:web-pentaho.prod
+    privileged: true
+    volumes_from:
+      - globalenv
+    ports:
+      - "4369"
+      - "5671"
+      - "5672"
+      - "15672"
