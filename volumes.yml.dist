@@ -5,3 +5,4 @@ services:
       volumes:
         - ./www/urbem-prod:/srv/web/urbem
         - ./www/transparencia-prod:/srv/web/transparencia
+        - ./www/storage:/var/www/storage

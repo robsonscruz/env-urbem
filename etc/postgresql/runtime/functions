@@ -285,6 +285,27 @@ configure_recovery() {
 }
 
 create_user() {
+  psql -U ${PG_USER} -c "CREATE OR REPLACE FUNCTION public.setRoleUser(user_name varchar, role_name varchar) RETURNS void AS \$\$ DECLARE user_name ALIAS FOR \$1; role_name ALIAS FOR \$2; BEGIN  EXECUTE 'GRANT ' || user_name ||  ' to ' ||role_name; END \$\$ LANGUAGE plpgsql;" >/dev/null
+
+
+  if [[ -n ${DB_REPORT_USER} ]]; then
+    case $REPLICATION_MODE in
+      slave|snapshot|backup)
+        echo "INFO! Database user cannot be created on a $REPLICATION_MODE node. Skipping..."
+        ;;
+      *)
+        if [[ -z ${DB_REPORT_PASS} ]]; then
+          echo "ERROR! Please specify a password for DB_REPORT_USER in DB_REPORT_PASS. Exiting..."
+          exit 1
+        fi
+        echo "Creating database user: ${DB_REPORT_USER}"
+        if [[ -z $(psql -U ${PG_USER} -Atc "SELECT 1 FROM pg_catalog.pg_user WHERE usename = '${DB_REPORT_USER}'";) ]]; then
+          psql -U ${PG_USER} -c "CREATE ROLE \"${DB_REPORT_USER}\" with LOGIN CREATEDB PASSWORD '${DB_REPORT_PASS}';" >/dev/null
+        fi
+        ;;
+    esac
+  fi
+
   if [[ -n ${DB_USER} ]]; then
     case $REPLICATION_MODE in
       slave|snapshot|backup)
@@ -321,22 +342,14 @@ create_user() {
     esac
   fi
 
-  if [[ -n ${DB_REPORT_USER} ]]; then
-    case $REPLICATION_MODE in
-      slave|snapshot|backup)
-        echo "INFO! Database user cannot be created on a $REPLICATION_MODE node. Skipping..."
-        ;;
-      *)
-        if [[ -z ${DB_REPORT_PASS} ]]; then
-          echo "ERROR! Please specify a password for DB_REPORT_USER in DB_REPORT_PASS. Exiting..."
-          exit 1
-        fi
-        echo "Creating database user: ${DB_REPORT_USER}"
-        if [[ -z $(psql -U ${PG_USER} -Atc "SELECT 1 FROM pg_catalog.pg_user WHERE usename = '${DB_REPORT_USER}'";) ]]; then
-          psql -U ${PG_USER} -c "CREATE ROLE \"${DB_REPORT_USER}\" with LOGIN CREATEDB PASSWORD '${DB_REPORT_PASS}';" >/dev/null
-        fi
-        ;;
-    esac
+  if [[ -n ${DB_REPORT_USER} && -n ${DB_USER} ]]; then
+      echo "Apply permition report user: ${DB_USER}"
+      psql -U ${PG_USER} -Atc "select * FROM public.setRoleUser('${DB_USER}', '${DB_REPORT_USER}');" >/dev/null
+  fi
+
+  if [[ -n ${DB_REPORT_USER} && -n ${DB_DEFAULT_USER} ]]; then
+      echo "Apply permition report user: ${DB_REPORT_USER}"
+      psql -U ${PG_USER} -Atc "select * FROM public.setRoleUser('${DB_USER}', '${DB_REPORT_USER}');" >/dev/null
   fi
 }
 

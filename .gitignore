@@ -11,6 +11,7 @@ var/lib/mongodb/**
 # Do not version sites
 var/www/*
 www/urbem-prod/**
+www/storage/**
 www/transparencia-prod/**
 www/urbem-prod/web/app.php
 
