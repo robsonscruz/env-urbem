@@ -18,6 +18,8 @@ services:
       - DB_DEFAULT_USER=urbem
       - DB_DEFAULT_PASS=urbem
 
+      - DB_EXTRA_BY_DEFAULT_USER=etl
+
       - DB_REPORT_USER=birt
       - DB_REPORT_PASS=md517e68e814c79648270e8a9c28b6386e7
 

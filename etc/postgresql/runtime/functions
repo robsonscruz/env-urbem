@@ -385,6 +385,15 @@ create_database() {
             psql -U ${PG_USER} -c "CREATE DATABASE \"${database}\" WITH TEMPLATE = \"${DB_TEMPLATE}\";" >/dev/null
           fi
 
+
+          if [[ -n ${DB_EXTRA_BY_DEFAULT_USER} ]]; then
+              if [[ -z $(psql -U ${PG_USER} -Atc "SELECT 1 FROM pg_catalog.pg_database WHERE datname = '${DB_EXTRA_BY_DEFAULT_USER}'";) ]]; then
+                psql -U ${PG_USER} -c "CREATE DATABASE \"${DB_EXTRA_BY_DEFAULT_USER}\" WITH TEMPLATE = \"${DB_TEMPLATE}\";" >/dev/null
+                psql -U ${PG_USER} -c "GRANT ALL PRIVILEGES ON DATABASE \"${DB_EXTRA_BY_DEFAULT_USER}\" to \"${DB_USER}\";" >/dev/null
+              fi
+          fi
+
+
           load_extensions ${database}
 
           if [[ -n ${DB_USER} ]]; then
