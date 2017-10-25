@@ -54,10 +54,10 @@ ENV DEFAULT_PATH_PROJECTS="/opt/tomcat/webapps"
 ENV DEFAULT_PATH_BIRT="${DEFAULT_PATH_PROJECTS}/viewer_440"
 
 RUN cd /tmp && wget http://eclipse.c3sl.ufpr.br/birt/downloads/drops/R-R1-4_4_0-201406111043/birt-runtime-4_4_0-20140611.zip -O birt-runtime-4_4_0.zip && unzip birt-runtime-4_4_0.zip \
-        && sudo cp -f -r birt-runtime-4_4_0/WebViewerExample $DEFAULT_PATH_BIRT \
+        && cp -f -r birt-runtime-4_4_0/WebViewerExample $DEFAULT_PATH_BIRT \
         && cd /tmp && wget https://jdbc.postgresql.org/download/postgresql-9.4.1212.jre6.jar \
         && cp postgresql-9.4.1212.jre6.jar $DEFAULT_PATH_BIRT/WEB-INF/lib/. \
-        && sudo chmod 755 $DEFAULT_PATH_BIRT/WEB-INF/lib/postgresql-9.4.1212.jre6.jar
+        && chmod 755 $DEFAULT_PATH_BIRT/WEB-INF/lib/postgresql-9.4.1212.jre6.jar
 
 EXPOSE 8080
 ENTRYPOINT ["/entrypoint.sh"]
