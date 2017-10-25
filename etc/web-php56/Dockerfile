@@ -51,6 +51,8 @@ COPY ./conf/php/php.ini /etc/php/5.6/fpm/php.ini
 COPY ./conf/php/www.conf /etc/php/5.6/fpm/pool.d/www.conf
 ADD ./conf/nginx/fastcgi_params /etc/nginx/fastcgi_params
 
+RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default
+
 # removing deb files
 RUN apt-get clean
 

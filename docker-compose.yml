@@ -60,6 +60,24 @@ services:
     ports:
       - "8080"
 
+  web-transparencia:
+    build: ./etc/web-php56
+    environment:
+      - VIRTUAL_HOST=transparencia.prod
+    volumes:
+      - ./etc/web-php56/conf/nginx/transparencia.conf:/etc/nginx/conf.d/transparencia.conf
+    network_mode: "bridge"
+    links:
+      - mysql:mysqlhost
+      - postgresql:postgrehost
+      - web-tomcat7:web-tomcat7.prod
+    privileged: true
+    volumes_from:
+      - globalenv
+    ports:
+      - "80"
+    entrypoint: /usr/bin/supervisord
+
   web-urbem:
     build: ./etc/web-php71
     environment:
@@ -72,24 +90,7 @@ services:
       - postgresql:postgrehost
       - web-tomcat7:web-tomcat7.prod
       - web-rabbitmq:web-rabbitmq.prod
-    privileged: true
-    volumes_from:
-      - globalenv
-    ports:
-      - "80"
-    entrypoint: /usr/bin/supervisord
-
-  web-transparencia:
-    build: ./etc/web-php56
-    environment:
-      - VIRTUAL_HOST=transparencia.prod
-    volumes:
-      - ./etc/web-php56/conf/nginx/transparencia.conf:/etc/nginx/conf.d/transparencia.conf
-    network_mode: "bridge"
-    links:
-      - mysql:mysqlhost
-      - postgresql:postgrehost
-      - web-tomcat7:web-tomcat7.prod
+      - web-transparencia:transparencia.prod
     privileged: true
     volumes_from:
       - globalenv
