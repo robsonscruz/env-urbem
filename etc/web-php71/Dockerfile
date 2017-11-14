@@ -24,6 +24,7 @@ RUN apt-get update && apt-get install -y software-properties-common language-pac
         php7.1-phar \
         php7.1-pgsql \
         php7.1-iconv \
+        php7.1-mbstring \
         php7.1-phar \
         php7.1-zip \
 		wkhtmltopdf \

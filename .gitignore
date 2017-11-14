@@ -29,3 +29,6 @@ src/workshop
 
 volumes.yml
 .DS_Store
+
+www/transparencia-prod/site/index.php
+www/urbem-prod/web/app.php

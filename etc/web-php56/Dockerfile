@@ -19,6 +19,8 @@ RUN apt-get update && apt-get install -y software-properties-common language-pac
 	php-xdebug \
     php5.6-gd \
 	php5.6-dev \
+    php5.6-xml \
+    php5.6-mbstring \
     php5.6-zip \
 	php-pear \
 	wkhtmltopdf \
