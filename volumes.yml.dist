@@ -5,5 +5,6 @@ services:
       volumes:
         - ./www/urbem-prod:/srv/web/urbem
         - ./www/transparencia-prod:/srv/web/transparencia
+        - ./www/redesimples-prod:/srv/web/redesimples
         - ./www/storage:/var/www/storage
         - ./www/pentaho/pdi:/var/www/pentaho/pdi

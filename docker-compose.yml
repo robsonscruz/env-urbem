@@ -78,6 +78,22 @@ services:
       - "80"
     entrypoint: /usr/bin/supervisord
 
+  web-redesimples:
+    build: ./etc/web-php56
+    environment:
+      - VIRTUAL_HOST=redesimples.prod
+    volumes:
+      - ./etc/web-php56/conf/nginx/redesimples.conf:/etc/nginx/conf.d/redesimples.conf
+    network_mode: "bridge"
+    links:
+      - mysql:mysqlhost
+    privileged: true
+    volumes_from:
+      - globalenv
+    ports:
+      - "80"
+    entrypoint: /usr/bin/supervisord
+
   web-urbem:
     build: ./etc/web-php71
     environment:
