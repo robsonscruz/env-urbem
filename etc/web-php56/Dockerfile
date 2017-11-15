@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y software-properties-common language-pac
     php5.6-mbstring \
     php5.6-zip \
 	php-pear \
+    php5.6-soap \
 	wkhtmltopdf \
 	xvfb \
 	sendmail supervisor \
@@ -31,7 +32,7 @@ RUN apt-get update && apt-get install -y software-properties-common language-pac
 RUN apt-get update && apt-get install -y supervisor
 COPY ./conf/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN apt-get update && apt-get install -y nginx git zip unzip postgresql-contrib
+RUN apt-get update && apt-get install -y nginx git zip unzip postgresql-contrib mysql-client
 
 RUN sed -i -e 's/listen = \/run\/php\/php5.6-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/5.6/fpm/pool.d/www.conf \
     && sed -i -e 's/;daemonize = yes/daemonize = no/g' /etc/php/5.6/fpm/php-fpm.conf

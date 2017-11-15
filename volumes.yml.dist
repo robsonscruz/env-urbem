@@ -3,8 +3,8 @@ version: '2.1'
 services:
     globalenv:
       volumes:
-        - ./www/urbem-prod:/srv/web/urbem
-        - ./www/transparencia-prod:/srv/web/transparencia
-        - ./www/redesimples-prod:/srv/web/redesimples
+        - ./www/urbem-prod:/srv/www/urbem
+        - ./www/transparencia-prod:/srv/www/transparencia
+        - ./www/redesimples-prod:/srv/www/redesimples
         - ./www/storage:/var/www/storage
         - ./www/pentaho/pdi:/var/www/pentaho/pdi
