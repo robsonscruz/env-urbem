@@ -20,6 +20,8 @@ services:
 
       - DB_EXTRA_BY_DEFAULT_USER=etl
 
+      - DB_EXTRA_BY_DEFAULT_USER2=urbem-transparencia
+
       - DB_REPORT_USER=birt
       - DB_REPORT_PASS=md517e68e814c79648270e8a9c28b6386e7
 
