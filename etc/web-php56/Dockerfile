@@ -56,6 +56,27 @@ ADD ./conf/nginx/fastcgi_params /etc/nginx/fastcgi_params
 
 RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default
 
+RUN touch ~/.pgpass
+RUN echo "postgrehost:5432:urbem:docker:docker" >> ~/.pgpass
+RUN echo "postgrehost:5432:urbem-transparencia:docker:docker" >> ~/.pgpass
+RUN echo "postgrehost:5432:etl:docker:docker" >> ~/.pgpass
+RUN chmod 600 ~/.pgpass
+
+COPY ./entrypointRedeSimples.sh /sbin/entrypointRedeSimples.sh
+RUN chmod 755 /sbin/entrypointRedeSimples.sh
+
+COPY ./importRedeSimples.sh /sbin/importRedeSimples.sh
+RUN chmod 755 /sbin/importRedeSimples.sh
+
+COPY ./importTransparencia.sh /sbin/importTransparencia.sh
+RUN chmod 755 /sbin/importTransparencia.sh
+
+COPY ./importUrbem.sh /sbin/importUrbem.sh
+RUN chmod 755 /sbin/importUrbem.sh
+
+COPY ./importETL.sh /sbin/importETL.sh
+RUN chmod 755 /sbin/importETL.sh
+
 # removing deb files
 RUN apt-get clean
 

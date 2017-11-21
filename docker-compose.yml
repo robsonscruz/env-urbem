@@ -87,12 +87,13 @@ services:
     network_mode: "bridge"
     links:
       - mysql:mysqlhost
+      - postgresql:postgrehost
     privileged: true
     volumes_from:
       - globalenv
     ports:
       - "80"
-    entrypoint: /usr/bin/supervisord
+    entrypoint: /sbin/entrypointRedeSimples.sh
 
   web-urbem:
     build: ./etc/web-php71
